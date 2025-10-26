@@ -1,0 +1,20 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  main:
+    web-application-type: reactive
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+  endpoint:
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    root: WARN

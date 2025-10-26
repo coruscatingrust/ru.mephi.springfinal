@@ -1,0 +1,19 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  sql:
+    init:
+      mode: never     # не исполнять data.sql в тестах
+  main:
+    web-application-type: servlet
+
+security:
+  jwt:
+    secret: "test-secret-CHANGE-ME-12345678901234567890"  # достаточно длинный для HS256
+    ttlSeconds: 60
+
+logging:
+  level:
+    root: WARN

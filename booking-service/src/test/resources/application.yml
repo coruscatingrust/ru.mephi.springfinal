@@ -1,0 +1,19 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  sql:
+    init:
+      mode: never
+  main:
+    web-application-type: servlet
+
+security:
+  jwt:
+    secret: "test-secret-CHANGE-ME-12345678901234567890"
+    ttlSeconds: 60
+
+logging:
+  level:
+    root: WARN

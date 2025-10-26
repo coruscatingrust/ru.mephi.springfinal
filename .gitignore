@@ -1,0 +1,85 @@
+# Универсальный .gitignore: Java/Kotlin
+# === Build artifacts (multi-module) ===
+target/
+**/target/
+
+# === Maven Wrapper (оставляем в репозитории) ===
+!/.mvn/wrapper/maven-wrapper.jar
+!**/.mvn/wrapper/maven-wrapper.jar
+
+# === IDE / Tooling ===
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans (на всякий случай)
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Lombok/apt и прочие кеши
+.apt_generated/
+.annotation_processors/
+.factorypath
+
+# === OS junk ===
+.DS_Store
+Thumbs.db
+
+# === Logs / dumps ===
+logs/
+*.log
+**/*.log
+hs_err_pid*
+replay_pid*
+*.hprof
+heapdump*.hprof
+
+# === Spring Boot / локальные конфиги и секреты ===
+# (Обычные application.yml НЕ игнорируем)
+*.local.properties
+*.local.yml
+*.local.yaml
+application-local.yml
+application-local.yaml
+application-*.local.yml
+application-*.local.yaml
+.env
+.env.*
+*.env
+
+# === H2 / dev DB файлы ===
+*.mv.db
+*.trace.db
+*.h2.db
+
+# === Test reports (обычно уже внутри target) ===
+surefire-reports/
+failsafe-reports/
+**/*.dump
+**/*-jvmRun*.dump
+**/*.dumpstream
+
+# === Misc temp ===
+out/
+bin/
+*.swp
+*~
+*.orig
+*.rej
+
+# === Docker (локальные оверрайды, если используете) ===
+docker/*.env
+docker/*.local.yml
+

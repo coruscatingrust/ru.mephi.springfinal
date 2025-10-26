@@ -1,0 +1,39 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: booking-service
+  datasource:
+    url: jdbc:h2:mem:booking-db;DB_CLOSE_DELAY=-1;MODE=LEGACY
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+security:
+  jwt:
+    secret: "A_VERY_LONG_DEMO_SECRET_KEY_CHANGE_ME_1234567890"
+    ttlSeconds: 3600
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN

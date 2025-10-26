@@ -1,0 +1,45 @@
+package ru.mephi.gateway.config;
+
+import org.slf4j.MDC;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
+
+@Configuration
+public class GatewayConfig {
+
+    public static final String CORRELATION_HEADER = "X-Request-Id";
+
+    @Bean
+    public RouteLocator routes(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route("booking", r -> r.path("/api/bookings/**", "/booking/**", "/bookings/**", "/user/**")
+                        .uri("lb://booking-service"))
+                // публикуем только публичные эндпоинты hotel-service
+                .route("hotel-public", r -> r.path("/api/hotels/**", "/api/rooms", "/api/rooms/recommend")
+                        .uri("lb://hotel-service"))
+                .build();
+    }
+
+    @Bean
+    public GlobalFilter correlationFilter() {
+        return (exchange, chain) -> {
+            var request = exchange.getRequest();
+            String correlationId = request.getHeaders().getFirst(CORRELATION_HEADER);
+            if (correlationId == null || correlationId.isBlank()) {
+                correlationId = UUID.randomUUID().toString();
+                exchange = exchange.mutate().request(
+                        request.mutate().headers(h -> h.add(CORRELATION_HEADER, correlationId)).build()
+                ).build();
+            }
+            final String cid = correlationId;
+            MDC.put("traceId", cid);
+            return chain.filter(exchange).then(Mono.fromRunnable(MDC::clear));
+        };
+    }
+}
